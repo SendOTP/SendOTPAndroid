@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+
+
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
+}
+ext {
+    bintrayRepo = 'Android-Libs'
+    bintrayName = 'send-otp'
+
+    publishedGroupId = 'com.msg91.sendotp.library'
+    libraryName = 'send-otp'
+    artifact = 'library'
+
+    libraryDescription = 'The SendOtp Verification SDK makes verifying phone numbers easy. This SDK supports the verification of phone numbers via SMS & calls.'
+
+    siteUrl = 'sendotp.msg91.com'
+    gitUrl = 'https://github.com/rakshitsoni02/SendOtp.git'
+
+    libraryVersion = '1.0'
+
+    developerId = 'rakshitsoni02'
+    developerName = 'Rakshit Soni'
+    developerEmail = 'rakshitsoni02@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+}
+
