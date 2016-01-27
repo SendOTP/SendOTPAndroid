@@ -23,10 +23,11 @@ Step 3. Sync gradle
 
 After successfully adding dependency Refer below sample 
 
-Step 4. implement 'VerificationListener' and change APPLICATION_KEY in you activity
-        Register and get Application Key from http://sendotp.msg91.com/
+Step 4. Register your Application at http://sendotp.msg91.com/ then implement 'VerificationListener'
+        in your activity or fragment
+        
 
-Step 5. On your button click (Requesting OTP) and get result in Initiate callback
+Step 5. On your button click (Requesting OTP) (get result in Initiate callback)
 ```javascript
 Config config = SendOtpVerification.config().context(getApplicationContext())
         .build();
@@ -34,7 +35,9 @@ Config config = SendOtpVerification.config().context(getApplicationContext())
              mVerification.initiate();
 ```     
         keyword is optional you can also pass blank
-Step 6. On verify button click or you detect sms call below method and get result in verification callback
+        
+Step 6. On verify button click call below method (get result in verification callback)
+
             mVerification.verify(code); 
         
 Step 7. You will get result of request in callbacks like:
