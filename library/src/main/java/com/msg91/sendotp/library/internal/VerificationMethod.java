@@ -128,13 +128,6 @@ public class VerificationMethod implements Verification {
     }
   }
 
-//  protected abstract JSONObject createVerifyParameters(String var1, String var2);
-////TODO broadcast handled
-//  public void onVerificationCode(String code, String source) {
-//    this.verify(code);
-//  }
-
-
   protected void onVerificationResult(Response response) {
     try {
       if (response.code() == 200)

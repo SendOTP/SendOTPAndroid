@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.provider.Settings;
 import android.util.Base64;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,13 +21,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ApiService {
-  String mAppKey, secretKey, packageName, deviceId;
+  String secretKey, packageName, deviceId;
   Context context;
   public static final MediaType JSON
       = MediaType.parse("application/json; charset=utf-8");
 
-  public ApiService(String appKey, Context context) {
-    mAppKey = appKey;
+  public ApiService(Context context) {
     this.context = context;
     this.packageName = context.getPackageName().trim();
     this.deviceId = getDeviceId().trim();

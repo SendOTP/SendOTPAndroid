@@ -28,11 +28,12 @@ Step 4. implement 'VerificationListener' and change APPLICATION_KEY in you activ
 
 Step 5. On your button click (Requesting OTP) and get result in Initiate callback
 ```javascript
-Config config = SendOtpVerification.config().applicationKey(APPLICATION_KEY).context(getApplicationContext())
+Config config = SendOtpVerification.config().context(getApplicationContext())
         .build();
-        mVerification = SendOtpVerification.createSmsVerification(config, phoneNumber, this, countryCode);
-              mVerification.initiate();
-```             
+         mVerification = SendOtpVerification.createSmsVerification(config, phoneNumber, this, countryCode, KEYWORD);
+             mVerification.initiate();
+```     
+        keyword is optional you can also pass blank
 Step 6. On verify button click or you detect sms call below method and get result in verification callback
             mVerification.verify(code); 
         
@@ -51,9 +52,9 @@ Step 7. You will get result of request in callbacks like:
      hideProgressBarAndShowMessage(R.string.failed);
    }
  
-   @Override
-   public void onVerified() {
-     Log.d(TAG, "Verified!");
+ @Override
+   public void onVerified(String response) {
+     Log.d(TAG, "Verified!\n" + response);
      hideProgressBarAndShowMessage(R.string.verified);
      showCompleted();
    }

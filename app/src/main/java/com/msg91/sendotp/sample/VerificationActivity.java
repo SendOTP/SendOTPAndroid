@@ -25,7 +25,6 @@ import com.msg91.sendotp.library.VerificationListener;
 public class VerificationActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, VerificationListener {
 
   private static final String TAG = Verification.class.getSimpleName();
-  private final String APPLICATION_KEY = "KedFus_S5FBTYyPC-XjwKHmAn0jt9pqC1oa4iPhj6GyWyh-lQfJsYNC_D6lgKDu5zf0XRS1SUQAMUvu8xTpvID1H6FwgpbK2g-L0UmRl7LkRyGg_YbrymqcWbZG1qnKBLb6cjDftXMUHgTjFAtTA_Q==";
   private final String KEYWORD = "";
   private Verification mVerification;
   TextView resend_timer;
@@ -41,14 +40,13 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
         ResendCode();
       }
     });
-    // showProgress();
     startTimer();
     enableInputField(true);
     initiateVerification();
   }
 
   void createVerification(String phoneNumber, boolean skipPermissionCheck, String countryCode) {
-    Config config = SendOtpVerification.config().applicationKey(APPLICATION_KEY).context(getApplicationContext())
+    Config config = SendOtpVerification.config().context(getApplicationContext())
         .build();
     if (!skipPermissionCheck && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) ==
         PackageManager.PERMISSION_DENIED) {
