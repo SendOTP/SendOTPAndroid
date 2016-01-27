@@ -192,7 +192,11 @@ public class VerificationMethod implements Verification {
   protected void callbackVerificationFailed(final Exception e) {
     this.runOnCallbackHandler(new Runnable() {
       public void run() {
-        mContext.unregisterReceiver(receiver);
+        try {
+          mContext.unregisterReceiver(receiver);
+        } catch (IllegalArgumentException e) {
+          e.printStackTrace();
+        }
         VerificationMethod.this.mListener.onVerificationFailed(e);
       }
     });
@@ -201,7 +205,12 @@ public class VerificationMethod implements Verification {
   protected void callbackVerified(final Response response) {
     this.runOnCallbackHandler(new Runnable() {
       public void run() {
-        mContext.unregisterReceiver(receiver);
+        try {
+          mContext.unregisterReceiver(receiver);
+        } catch (IllegalArgumentException e) {
+          e.printStackTrace();
+        }
+
         try {
           VerificationMethod.this.mListener.onVerified(response.body().string());
         } catch (IOException e) {
