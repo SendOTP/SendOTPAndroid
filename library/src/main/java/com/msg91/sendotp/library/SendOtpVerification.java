@@ -9,7 +9,7 @@ public final class SendOtpVerification {
     return new DefaultConfigBuilder();
   }
 
-  public static Verification createSmsVerification(Config config, String number, VerificationListener listener, String country) {
-    return SmsVerificationFactory.create(config, number, listener, country);
+  public static Verification createSmsVerification(Config config, String number, VerificationListener listener, String country, String keyWord) {
+    return SmsVerificationFactory.create(config, number, listener, country, keyWord);
   }
 }

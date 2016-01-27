@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -24,14 +25,24 @@ import com.msg91.sendotp.library.VerificationListener;
 public class VerificationActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, VerificationListener {
 
   private static final String TAG = Verification.class.getSimpleName();
-  private final String APPLICATION_KEY = "your-app-key";
+  private final String APPLICATION_KEY = "KedFus_S5FBTYyPC-XjwKHmAn0jt9pqC1oa4iPhj6GyWyh-lQfJsYNC_D6lgKDu5zf0XRS1SUQAMUvu8xTpvID1H6FwgpbK2g-L0UmRl7LkRyGg_YbrymqcWbZG1qnKBLb6cjDftXMUHgTjFAtTA_Q==";
+  private final String KEYWORD = "";
   private Verification mVerification;
+  TextView resend_timer;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_verification);
+    resend_timer = (TextView) findViewById(R.id.resend_timer);
+    resend_timer.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        ResendCode();
+      }
+    });
     // showProgress();
+    startTimer();
     enableInputField(true);
     initiateVerification();
   }
@@ -44,7 +55,7 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
       ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, 0);
       hideProgressBar();
     } else {
-      mVerification = SendOtpVerification.createSmsVerification(config, phoneNumber, this, countryCode);
+      mVerification = SendOtpVerification.createSmsVerification(config, phoneNumber, this, countryCode, KEYWORD);
       mVerification.initiate();
     }
   }
@@ -82,6 +93,11 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
     }
   }
 
+  public void ResendCode() {
+    startTimer();
+    initiateVerificationAndSuppressPermissionCheck();
+  }
+
   public void onSubmitClicked(View view) {
     String code = ((EditText) findViewById(R.id.inputCode)).getText().toString();
     if (!code.isEmpty()) {
@@ -104,6 +120,8 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
     } else {
       container.setVisibility(View.GONE);
     }
+    TextView resend_timer = (TextView) findViewById(R.id.resend_timer);
+    resend_timer.setClickable(false);
   }
 
   void hideProgressBarAndShowMessage(int message) {
@@ -142,8 +160,8 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
   }
 
   @Override
-  public void onVerified() {
-    Log.d(TAG, "Verified!");
+  public void onVerified(String response) {
+    Log.d(TAG, "Verified!\n" + response);
     hideProgressBarAndShowMessage(R.string.verified);
     showCompleted();
   }
@@ -155,4 +173,24 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
     enableInputField(true);
   }
 
+  private void startTimer() {
+    resend_timer.setClickable(false);
+    resend_timer.setTextColor(ContextCompat.getColor(VerificationActivity.this, R.color.sendotp_grey));
+    new CountDownTimer(15000, 1000) {
+      int secondsLeft = 0;
+
+      public void onTick(long ms) {
+        if (Math.round((float) ms / 1000.0f) != secondsLeft) {
+          secondsLeft = Math.round((float) ms / 1000.0f);
+          resend_timer.setText("Resend via call ( " + secondsLeft + " )");
+        }
+      }
+
+      public void onFinish() {
+        resend_timer.setClickable(true);
+        resend_timer.setText("Resend via call");
+        resend_timer.setTextColor(ContextCompat.getColor(VerificationActivity.this, R.color.send_otp_blue));
+      }
+    }.start();
+  }
 }
