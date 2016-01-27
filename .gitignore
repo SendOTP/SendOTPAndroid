@@ -16,8 +16,10 @@
 /library/build/intermediates
 /library/build/outputs
 /library/build/generated
+/library/build/docs
 /library/library.iml
 /library/gradle.properties
 /build
 **/*.iml
+library/build/
 /gradlew
