@@ -43,7 +43,7 @@ public class ApiService {
     } catch (JSONException e) {
       e.printStackTrace();
     }
-    return getResponse("http://sendotp.msg91.com/api/generateOTP", jsonObject);
+    return getResponse("https://sendotp.msg91.com/api/generateOTP", jsonObject);
   }
 
   public Response verifyRequest(String mobileNumber, String countryCode, String oneTimePassword) {
@@ -55,7 +55,7 @@ public class ApiService {
     } catch (JSONException e) {
       e.printStackTrace();
     }
-    return getResponse("http://sendotp.msg91.com/api/verifyOTP", jsonObject);
+    return getResponse("https://sendotp.msg91.com/api/verifyOTP", jsonObject);
   }
 
 
