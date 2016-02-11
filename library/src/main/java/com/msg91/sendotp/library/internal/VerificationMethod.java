@@ -20,6 +20,8 @@ import com.msg91.sendotp.library.VerificationListener;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Response;
 
@@ -71,7 +73,6 @@ public class VerificationMethod implements Verification {
         protected void onPostExecute(Void aVoid) {
           super.onPostExecute(aVoid);
           if (response.code() == 200) {
-            //TODO temp exception
             callbackInitiated();
           } else {
             callbackInitiationFailed(new Exception(response.message()));
@@ -188,7 +189,7 @@ public class VerificationMethod implements Verification {
         try {
           mContext.unregisterReceiver(receiver);
         } catch (IllegalArgumentException e) {
-          e.printStackTrace();
+          // e.printStackTrace();
         }
         VerificationMethod.this.mListener.onVerificationFailed(e);
       }
@@ -201,7 +202,7 @@ public class VerificationMethod implements Verification {
         try {
           mContext.unregisterReceiver(receiver);
         } catch (IllegalArgumentException e) {
-          e.printStackTrace();
+          //e.printStackTrace();
         }
 
         try {
@@ -248,8 +249,11 @@ public class VerificationMethod implements Verification {
             if (senderNum.endsWith(mKeyWord)) {
               int length = message.length();
               try {
-                //TODO here change
-                // LoginActivity.setCode(message.substring(length - 4, length));
+                // message = message.substring(length - 26, length);
+                Pattern p = Pattern.compile("(\\d+)");
+                Matcher m = p.matcher(message);
+                m.find();
+                verify(m.group(1).trim());
               } catch (Exception e) {
                 e.printStackTrace();
               }
@@ -274,7 +278,7 @@ public class VerificationMethod implements Verification {
         } else if (action.equals(android.telephony.TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
           String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
           if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-            String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER).replaceAll("[-+.^:,]", "");
+            String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER).replaceAll("[-+.^:,]", "").trim();
             incomingNumber = incomingNumber.substring(incomingNumber.length() - 6);
             verify(incomingNumber);
             disconnectCall();

@@ -31,11 +31,9 @@ public class ApiService {
     this.packageName = context.getPackageName().trim();
     this.deviceId = getDeviceId().trim();
     this.secretKey = getSecretKey().trim();
-
   }
 
   public Response generateRequest(String mobileNumber, String countryCode) {
-
     JSONObject jsonObject = new JSONObject();
     try {
       jsonObject.put("countryCode", countryCode);
@@ -97,15 +95,9 @@ public class ApiService {
     Response httpResponse = null;
     try {
       httpResponse = client.newCall(request).execute();
-      httpResponse.code();
     } catch (IOException e) {
       e.printStackTrace();
     }
-//    try {
-//      Log.e("Response", "" + httpResponse.body().string());
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
     return httpResponse;
   }
 }
