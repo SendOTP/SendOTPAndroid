@@ -73,7 +73,12 @@ public class VerificationMethod implements Verification {
         protected void onPostExecute(Void aVoid) {
           super.onPostExecute(aVoid);
           if (response.code() == 200) {
-            callbackInitiated();
+            try {
+              callbackInitiated(response.body().string());
+            } catch (IOException e) {
+              e.printStackTrace();
+              Log.e("IOException", e.getMessage());
+            }
           } else {
             callbackInitiationFailed(new Exception(response.message()));
           }
@@ -216,10 +221,10 @@ public class VerificationMethod implements Verification {
     });
   }
 
-  protected void callbackInitiated() {
+  protected void callbackInitiated(final String body) {
     this.runOnCallbackHandler(new Runnable() {
       public void run() {
-        VerificationMethod.this.mListener.onInitiated();
+        VerificationMethod.this.mListener.onInitiated(body);
       }
     });
   }

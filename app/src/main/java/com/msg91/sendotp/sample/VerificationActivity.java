@@ -146,9 +146,8 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
   }
 
   @Override
-  public void onInitiated() {
-    Log.d(TAG, "Initialized!");
-    //  showProgress();
+  public void onInitiated(String response) {
+    Log.d(TAG, "Initialized!" + response);
   }
 
   @Override
