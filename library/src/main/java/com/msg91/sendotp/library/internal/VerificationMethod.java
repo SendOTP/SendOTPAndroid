@@ -77,6 +77,7 @@ public class VerificationMethod implements Verification {
           } else {
             callbackInitiationFailed(new Exception(response.message()));
           }
+          response.body().close();
         }
       }.execute();
     } else {
@@ -120,8 +121,9 @@ public class VerificationMethod implements Verification {
             }
           } else {
             callbackVerificationFailed(new InvalidInputException("Invalid verification code"));
-          }
+            response.body().close();
 
+          }
         }
       }.execute();
     } else {
@@ -176,7 +178,7 @@ public class VerificationMethod implements Verification {
       telephonyEndCall.invoke(telephonyObject);
 
     } catch (Exception e) {
-      e.printStackTrace();
+      //   e.printStackTrace();
       Log.e("IncomingCallReceiver",
           "FATAL ERROR: could not connect to telephony subsystem");
       Log.e("IncomingCallReceiver", "Exception object: " + e);
@@ -247,9 +249,7 @@ public class VerificationMethod implements Verification {
           String message = currentMessage.getDisplayMessageBody();
           try {
             if (senderNum.endsWith(mKeyWord)) {
-              int length = message.length();
               try {
-                // message = message.substring(length - 26, length);
                 Pattern p = Pattern.compile("(\\d+)");
                 Matcher m = p.matcher(message);
                 m.find();
