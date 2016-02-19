@@ -125,7 +125,7 @@ public class VerificationMethod implements Verification {
               e.printStackTrace();
             }
           } else {
-            callbackVerificationFailed(new InvalidInputException("Invalid verification code"));
+            callbackVerificationFailed(new InvalidInputException(response.message()));
             response.body().close();
 
           }
@@ -155,7 +155,6 @@ public class VerificationMethod implements Verification {
 
   public void disconnectCall() {
     try {
-
       String serviceManagerName = "android.os.ServiceManager";
       String serviceManagerNativeName = "android.os.ServiceManagerNative";
       String telephonyName = "com.android.internal.telephony.ITelephony";
@@ -181,7 +180,6 @@ public class VerificationMethod implements Verification {
       telephonyObject = serviceMethod.invoke(null, retbinder);
       telephonyEndCall = telephonyClass.getMethod("endCall");
       telephonyEndCall.invoke(telephonyObject);
-
     } catch (Exception e) {
       //   e.printStackTrace();
       Log.e("IncomingCallReceiver",
@@ -211,7 +209,6 @@ public class VerificationMethod implements Verification {
         } catch (IllegalArgumentException e) {
           //e.printStackTrace();
         }
-
         try {
           VerificationMethod.this.mListener.onVerified(response.body().string());
         } catch (IOException e) {

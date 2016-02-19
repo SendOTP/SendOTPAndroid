@@ -16,7 +16,7 @@ repositories {
 
 Step 2. Add below in dependency
  ```javascript
-   compile 'com.msg91.sendotp.library:library:2.1'
+   compile 'com.msg91.sendotp.library:library:2.2'
 ```
 
 Step 3. Sync gradle

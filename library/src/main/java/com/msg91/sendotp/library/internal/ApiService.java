@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.provider.Settings;
 import android.util.Base64;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +79,7 @@ public class ApiService {
     } catch (NoSuchAlgorithmException e) {
 
     }
-
+    Log.i("SecretKey = ",Base64.encodeToString(md.digest(), Base64.DEFAULT));
     return Base64.encodeToString(md.digest(), Base64.DEFAULT);
   }
 
