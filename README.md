@@ -1,7 +1,8 @@
 # SendOtp
 The SendOtp Verification SDK makes verifying phone numbers easy. This SDK supports the verification of phone numbers via SMS &amp; calls.
+![alt tag](http://www.androidhive.info/wp-content/uploads/2015/07/android-sms-verification-like-whatsapp-viber-2.png)
 
-Add following in you application's build.gradle
+Follow these steps and change your application's build.gradle
 
 
 Step 1. Add in repositories 
