@@ -79,7 +79,7 @@ public class ApiService {
     } catch (NoSuchAlgorithmException e) {
 
     }
-    Log.i("SecretKey = ",Base64.encodeToString(md.digest(), Base64.DEFAULT));
+    //Log.i("SecretKey = ", Base64.encodeToString(md.digest(), Base64.DEFAULT));
     return Base64.encodeToString(md.digest(), Base64.DEFAULT);
   }
 
