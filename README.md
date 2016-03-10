@@ -29,6 +29,8 @@ After successfully adding dependency Refer below sample
 
 Step 4. Register your Application at http://sendotp.msg91.com/ then implement 'VerificationListener'
         in your activity or fragment
+        You will need to change secretKey on panel according to Debug/Release environment 
+        To get SecretKey visit http://help.msg91.com/article/181-how-to-generate-key-hash-for-android 
         
 
 Step 5. On your button click (Requesting OTP) (get result in Initiate callback)
