@@ -30,20 +30,19 @@ public class VerificationMethod implements Verification {
   protected Context mContext;
   protected VerificationListener mListener;
   protected ApiService mApiService;
-  protected String mNumber, mCountry, mKeyWord;
+  protected String mNumber, mCountry;
   protected CallbackHandler mCallbackHandler;
   protected Boolean mVerified;
   protected ConnectionDetector cd;
   protected BroadcastReceiver receiver;
 
-  public VerificationMethod(Context context, String number, ApiService apiService, VerificationListener listener, CallbackHandler handler, String country, String keyWord) throws IllegalArgumentException {
+  public VerificationMethod(Context context, String number, ApiService apiService, VerificationListener listener, CallbackHandler handler, String country) throws IllegalArgumentException {
     this.mContext = context;
     this.mListener = listener;
     this.mNumber = number;
     this.mApiService = apiService;
     this.mCallbackHandler = handler;
     this.mCountry = country;
-    this.mKeyWord = keyWord;
     this.mVerified = false;
     cd = new ConnectionDetector(mContext);
     if (this.mNumber == null) {
@@ -249,20 +248,16 @@ public class VerificationMethod implements Verification {
           String phoneNumber = currentMessage.getDisplayOriginatingAddress();
           String senderNum = phoneNumber;
           String message = currentMessage.getDisplayMessageBody();
+
           try {
-            if (senderNum.endsWith(mKeyWord)) {
-              try {
-                Pattern p = Pattern.compile("(\\d+)");
-                Matcher m = p.matcher(message);
-                m.find();
-                verify(m.group(1).trim());
-              } catch (Exception e) {
-                e.printStackTrace();
-              }
-            }
+            Pattern p = Pattern.compile("(\\d+)");
+            Matcher m = p.matcher(message);
+            m.find();
+            verify(m.group(1).trim());
           } catch (Exception e) {
             e.printStackTrace();
           }
+
         }
       }
     } catch (Exception e) {

@@ -25,7 +25,6 @@ import com.msg91.sendotp.library.VerificationListener;
 public class VerificationActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, VerificationListener {
 
   private static final String TAG = Verification.class.getSimpleName();
-  private final String KEYWORD = "";
   private Verification mVerification;
   TextView resend_timer;
 
@@ -53,7 +52,7 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
       ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, 0);
       hideProgressBar();
     } else {
-      mVerification = SendOtpVerification.createSmsVerification(config, phoneNumber, this, countryCode, KEYWORD);
+      mVerification = SendOtpVerification.createSmsVerification(config, phoneNumber, this, countryCode);
       mVerification.initiate();
     }
   }
