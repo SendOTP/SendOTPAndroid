@@ -40,8 +40,6 @@ Config config = SendOtpVerification.config().context(getApplicationContext())
          mVerification = SendOtpVerification.createSmsVerification(config, phoneNumber, this, countryCode);
              mVerification.initiate();
 ```     
-        keyword is optional you can also pass blank
-        
 Step 6. On verify button click call below method (get result in verification callback)
 
             mVerification.verify(code); 
