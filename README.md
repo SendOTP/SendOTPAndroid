@@ -20,7 +20,7 @@ repositories {
 
 Step 2. Add below in dependency
  ```javascript
-   compile 'com.msg91.sendotp.library:library:2.2'
+   compile 'com.msg91.sendotp.library:library:2.3'
 ```
 
 Step 3. Sync gradle
@@ -37,7 +37,7 @@ Step 5. On your button click (Requesting OTP) (get result in Initiate callback)
 ```javascript
 Config config = SendOtpVerification.config().context(getApplicationContext())
         .build();
-         mVerification = SendOtpVerification.createSmsVerification(config, phoneNumber, this, countryCode, KEYWORD);
+         mVerification = SendOtpVerification.createSmsVerification(config, phoneNumber, this, countryCode);
              mVerification.initiate();
 ```     
         keyword is optional you can also pass blank
