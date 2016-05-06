@@ -47,6 +47,7 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
   void createVerification(String phoneNumber, boolean skipPermissionCheck, String countryCode) {
     Config config = SendOtpVerification.config().context(getApplicationContext())
         .build();
+
     if (!skipPermissionCheck && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) ==
         PackageManager.PERMISSION_DENIED) {
       ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, 0);
@@ -172,7 +173,7 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
   private void startTimer() {
     resend_timer.setClickable(false);
     resend_timer.setTextColor(ContextCompat.getColor(VerificationActivity.this, R.color.sendotp_grey));
-    new CountDownTimer(15000, 1000) {
+    new CountDownTimer(30000, 1000) {
       int secondsLeft = 0;
 
       public void onTick(long ms) {

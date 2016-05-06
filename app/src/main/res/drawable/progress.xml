@@ -6,18 +6,18 @@
         android:pivotY="50%">
 
     <shape
-            android:innerRadiusRatio="3"
-            android:shape="ring"
-            android:thicknessRatio="10"
-            android:useLevel="false">
+        android:innerRadiusRatio="3"
+        android:shape="ring"
+        android:thicknessRatio="10"
+        android:useLevel="false">
 
         <gradient
-                android:endColor="#00ffffff"
-                android:centerY="0.50"
-                android:startColor="#00ffffff"
-                android:centerColor="@color/send_otp_blue"
-                android:type="sweep"
-                android:useLevel="false"/>
+            android:endColor="#00ffffff"
+            android:centerY="0.50"
+            android:startColor="#00ffffff"
+            android:centerColor="@color/send_otp_blue"
+            android:type="sweep"
+            android:useLevel="false"/>
     </shape>
 
 </rotate>
