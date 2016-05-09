@@ -38,7 +38,8 @@ public class VerificationMethod implements Verification {
     protected ConnectionDetector cd;
     protected BroadcastReceiver receiver;
 
-    public VerificationMethod(Context context, String number, ApiService apiService, VerificationListener listener, CallbackHandler handler, String country) throws IllegalArgumentException {
+    public VerificationMethod(Context context, String number, ApiService apiService, VerificationListener
+            listener, CallbackHandler handler, String country) throws IllegalArgumentException {
         this.mContext = context;
         this.mListener = listener;
         this.mNumber = number;
@@ -73,7 +74,10 @@ public class VerificationMethod implements Verification {
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
-                    if (response.code() == 200) {
+
+                    if (response == null || !response.isSuccessful()) {
+                        callbackVerificationFailed(new InvalidInputException("Request Unsuccessful Try Again"));
+                    } else if (response.code() == 200) {
                         try {
                             callbackInitiated(response.body().string());
                         } catch (IOException e) {
@@ -127,7 +131,9 @@ public class VerificationMethod implements Verification {
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
-                    if (response.code() == 200) {
+                    if (response == null || !response.isSuccessful()) {
+                        callbackVerificationFailed(new InvalidInputException("Request Unsuccessful Try Again"));
+                    } else if (response.code() == 200) {
                         try {
                             mVerified = true;
                             VerificationMethod.this.onVerificationResult(response);
