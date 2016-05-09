@@ -74,30 +74,31 @@ public class VerificationMethod implements Verification {
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
-
                     if (response == null || !response.isSuccessful()) {
-                        callbackVerificationFailed(new InvalidInputException("Request Unsuccessful Try Again"));
-                    } else if (response.code() == 200) {
-                        try {
-                            callbackInitiated(response.body().string());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Log.e("IOException", e.getMessage());
-                        }
+                        callbackInitiationFailed(new Exception("Request Unsuccessful Try Again"));
                     } else {
-                        String messageCode = "";
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.body().string());
-                            messageCode = jsonObject.getJSONObject("response").getString("code");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        if (!messageCode.equals("")) {
-                            callbackInitiationFailed(new Exception(messageCode));
+                        if (response.code() == 200) {
+                            try {
+                                callbackInitiated(response.body().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Log.e("IOException", e.getMessage());
+                            }
+                        } else {
+                            String messageCode = "";
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.body().string());
+                                messageCode = jsonObject.getJSONObject("response").getString("code");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            if (!messageCode.equals("")) {
+                                callbackInitiationFailed(new Exception(messageCode));
 
-                        } else callbackInitiationFailed(new Exception(response.message()));
+                            } else callbackInitiationFailed(new Exception(response.message()));
+                        }
+                        response.body().close();
                     }
-                    response.body().close();
                 }
             }.execute();
         } else {
