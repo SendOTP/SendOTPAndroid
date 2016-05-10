@@ -23,24 +23,23 @@ Step 2. Add below in dependency
    compile 'com.msg91.sendotp.library:library:2.5'
 ```
 
-Step 3. Sync gradle
-
-After successfully adding dependency Refer below sample 
-
-Step 4. Register your Application at http://sendotp.msg91.com/ then implement 'VerificationListener'
-        in your activity or fragment
-        You will need to change secretKey on panel according to Debug/Release environment 
+Step 3. Register your Application at http://sendotp.msg91.com/
+        Change secretKey on panel according to Debug/Release environment
         To get SecretKey visit http://help.msg91.com/article/181-how-to-generate-key-hash-for-android 
         
+Step 4. implement 'VerificationListener'
+                 in your activity or fragment.
 
-Step 5. On your button click (Requesting OTP) (get result in Initiate callback)
+Step 5. To Generate OTP  (Requesting OTP) (get result in Initiate callbacks) mVerification is instance of Verification
 ```javascript
 Config config = SendOtpVerification.config().context(getApplicationContext())
         .build();
          mVerification = SendOtpVerification.createSmsVerification(config, phoneNumber, this, countryCode);
              mVerification.initiate();
-```     
-Step 6. On verify button click call below method (get result in verification callback)
+```
+get countryCode info https://en.wikipedia.org/wiki/List_of_country_calling_codes
+
+Step 6. To Verify OTP (get result in verification callback)
 
             mVerification.verify(code); 
         
@@ -48,28 +47,23 @@ Step 7. You will get result of request in callbacks like:
 
 ```javascript
    @Override
-   public void onInitiated() {
-     Log.d(TAG, "Initialized!");
-     //  showProgress();
-   }
+     public void onInitiated(String response) {
+       Log.d(TAG, "Initialized!" + response);
+     }
  
    @Override
    public void onInitiationFailed(Exception exception) {
      Log.e(TAG, "Verification initialization failed: " + exception.getMessage());
-     hideProgressBarAndShowMessage(R.string.failed);
    }
  
  @Override
    public void onVerified(String response) {
      Log.d(TAG, "Verified!\n" + response);
-     hideProgressBarAndShowMessage(R.string.verified);
-     showCompleted();
    }
  
    @Override
    public void onVerificationFailed(Exception exception) {
      Log.e(TAG, "Verification failed: " + exception.getMessage());
-     hideProgressBarAndShowMessage(R.string.failed);
    }
 
 
