@@ -74,7 +74,7 @@ public class VerificationMethod implements Verification {
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
-                    if (response == null || !response.isSuccessful()) {
+                    if (response == null) {
                         callbackInitiationFailed(new Exception("Request Unsuccessful Try Again"));
                     } else {
                         if (response.code() == 200) {
@@ -132,7 +132,7 @@ public class VerificationMethod implements Verification {
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
-                    if (response == null || !response.isSuccessful()) {
+                    if (response == null ) {
                         callbackVerificationFailed(new InvalidInputException("Request Unsuccessful Try Again"));
                     } else if (response.code() == 200) {
                         try {

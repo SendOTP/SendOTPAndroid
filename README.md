@@ -24,7 +24,7 @@ Step 2. Add below in dependency
 ```
 
 Step 3. Register your Application at http://sendotp.msg91.com/
-        Change secretKey on panel according to Debug/Release environment
+        Set secretKey on panel according to Debug/Release environment
         To get SecretKey visit http://help.msg91.com/article/181-how-to-generate-key-hash-for-android 
         
 Step 4. implement 'VerificationListener'
