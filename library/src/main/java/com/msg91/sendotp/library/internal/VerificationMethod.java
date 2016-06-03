@@ -58,10 +58,10 @@ public class VerificationMethod implements Verification {
 
     public void initiate() {
         if (cd.isNetworkAvailable()) {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction("android.provider.Telephony.SMS_RECEIVED");
-            filter.addAction(android.telephony.TelephonyManager.ACTION_PHONE_STATE_CHANGED);
-            mContext.registerReceiver(setUpReceiver(), filter);
+//            IntentFilter filter = new IntentFilter();
+//            filter.addAction("android.provider.Telephony.SMS_RECEIVED");
+//            filter.addAction(android.telephony.TelephonyManager.ACTION_PHONE_STATE_CHANGED);
+//            mContext.registerReceiver(setUpReceiver(), filter);
             new AsyncTask<Void, Void, Void>() {
                 Response response;
 
