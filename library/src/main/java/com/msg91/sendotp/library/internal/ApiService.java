@@ -6,6 +6,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.provider.Settings;
 import android.util.Base64;
+import android.util.Log;
+
+import com.msg91.sendotp.library.BuildConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +34,8 @@ public class ApiService {
         this.packageName = context.getPackageName().trim();
         this.deviceId = getDeviceId().trim();
         this.secretKey = getSecretKey().trim();
+        if (BuildConfig.DEBUG)
+            Log.i("UserHeaders", "packageName=" + packageName + "secretKey=" + secretKey);
     }
 
     public Response generateRequest(String mobileNumber, String countryCode) {
