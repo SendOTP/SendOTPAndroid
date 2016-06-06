@@ -20,7 +20,7 @@ repositories {
 
 Step 2. Add below in dependency
  ```javascript
-   compile 'com.msg91.sendotp.library:library:2.5'
+   compile 'com.msg91.sendotp.library:library:2.6'
 ```
 
 Step 3. Register your Application at http://sendotp.msg91.com/

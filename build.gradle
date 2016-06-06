@@ -5,6 +5,8 @@ buildscript {
         jcenter()
     }
     dependencies {
+        //if build fails use 1.5.0 and comment 2.2.0 revert after build
+   //     classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.android.tools.build:gradle:2.2.0-alpha2'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
