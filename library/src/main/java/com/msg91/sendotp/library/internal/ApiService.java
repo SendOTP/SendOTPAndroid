@@ -8,8 +8,6 @@ import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 
-import com.msg91.sendotp.library.BuildConfig;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,14 +26,17 @@ public class ApiService {
     Context context;
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
+    private String baseUrl = "https://sendotp.msg91.com/api/";
+    private String baseUrlNoHttps = "http://sendotp.msg91.com/api/";
 
-    public ApiService(Context context) {
+    public ApiService(Context context, Boolean useHttp) {
         this.context = context;
         this.packageName = context.getPackageName().trim();
         this.deviceId = getDeviceId().trim();
         this.secretKey = getSecretKey().trim();
-        if (BuildConfig.DEBUG)
-            Log.i("UserHeaders", "packageName=" + packageName + "secretKey=" + secretKey);
+        if (useHttp)
+            this.baseUrl = baseUrlNoHttps;
+        Log.i("UserHeaders", "packageName=" + packageName + "secretKey=" + secretKey);
     }
 
     public Response generateRequest(String mobileNumber, String countryCode) {
@@ -46,7 +47,7 @@ public class ApiService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return getResponse("https://sendotp.msg91.com/api/generateOTP", jsonObject);
+        return getResponse(baseUrl + "generateOTP", jsonObject);
     }
 
     public Response verifyRequest(String mobileNumber, String countryCode, String oneTimePassword) {
@@ -58,7 +59,7 @@ public class ApiService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return getResponse("https://sendotp.msg91.com/api/verifyOTP", jsonObject);
+        return getResponse(baseUrl + "verifyOTP", jsonObject);
     }
 
 

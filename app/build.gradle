@@ -19,15 +19,15 @@ android {
     }
 }
 repositories {
-    maven {
-        url "http://dl.bintray.com/rakshitsoni02/Android-Libs"
-    }
+//    maven {
+//        url "http://dl.bintray.com/rakshitsoni02/Android-Libs"
+//    }
 }
 dependencies {
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-   compile 'com.msg91.sendotp.library:library:2.5'
-    //compile project(':library')
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.msg91.sendotp.library:library:2.7'
+    // compile project(':library')
 }
 

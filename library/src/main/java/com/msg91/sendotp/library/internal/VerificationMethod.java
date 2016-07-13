@@ -107,7 +107,6 @@ public class VerificationMethod implements Verification {
     }
 
 
-    //TODO internet check
     public void verify(String code) {
         if (cd.isNetworkAvailable()) {
             this.verifyRequest(code);
