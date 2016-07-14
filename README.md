@@ -45,8 +45,9 @@ After login at [sendOTP](sendotp.msg91.com) click on <i class="icon-folder-open"
 > - Select Android as Application Type
 > - Package Name is unique and it's not <i class="icon-pencil"></i> editable.
 > - In the **key** field set your debug version key hash while you are in **development** mode.
- > - In the **key** field set your release version key hash while you are in **production** mode.
-#### <i class="icon-folder-open"></i> To send OTP request
+> - In the **key** field set your release version key hash while you are in **production** mode.
+ 
+#### <i class="icon-folder-open"></i> Make OTP request
 > **Note:**
 >  implement '**VerificationListener**' in your activity or fragment to get result call backs.
  
