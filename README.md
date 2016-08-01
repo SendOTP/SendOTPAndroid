@@ -33,7 +33,7 @@ grab via Maven:
 > **Note:**
 
 > - Login at [sendOTP](sendotp.msg91.com) 
-> - or to create account Sign Up at [MSG91](https://msg91.com/) to use sendOTP services.
+> - or to create account Sign Up at [MSG91](https://msg91.com/signup/sendotp) to use sendOTP services.
 
 #### <i class="icon-file"></i> Create New Application
 
