@@ -12,11 +12,11 @@ Getting started
 Gradle
 ------
 
-Just add the "compile 'com.msg91.sendotp.library:library:2.7'" in your build.gradle of your module.
+Just add the "compile 'com.msg91.sendotp.library:library:2.8'" in your build.gradle of your module.
 
     dependencies {
     ...
-    compile 'com.msg91.sendotp.library:library:2.7'
+    compile 'com.msg91.sendotp.library:library:2.8'
     ...
     }
 Maven
@@ -26,7 +26,7 @@ grab via Maven:
     <dependency>
        <groupId>com.msg91.sendotp.library</groupId>
        <artifactId>library</artifactId>
-       <version>2.7</version>
+       <version>2.8</version>
        <type>pom</type>
     </dependency>
 
