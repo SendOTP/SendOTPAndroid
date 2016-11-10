@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.telephony.SmsMessage;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.msg91.sendotp.library.InvalidInputException;
@@ -58,10 +57,11 @@ public class VerificationMethod implements Verification {
 
     public void initiate() {
         if (cd.isNetworkAvailable()) {
-//            IntentFilter filter = new IntentFilter();
-//            filter.addAction("android.provider.Telephony.SMS_RECEIVED");
-//            filter.addAction(android.telephony.TelephonyManager.ACTION_PHONE_STATE_CHANGED);
-//            mContext.registerReceiver(setUpReceiver(), filter);
+            unregisterReceiver();
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("android.provider.Telephony.SMS_RECEIVED");
+            //  filter.addAction(android.telephony.TelephonyManager.ACTION_PHONE_STATE_CHANGED);
+            mContext.registerReceiver(setUpReceiver(), filter);
             new AsyncTask<Void, Void, Void>() {
                 Response response;
 
@@ -80,9 +80,8 @@ public class VerificationMethod implements Verification {
                         if (response.code() == 200) {
                             try {
                                 callbackInitiated(response.body().string());
-                            } catch (IOException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
-                                Log.e("IOException", e.getMessage());
                             }
                         } else {
                             String messageCode = "";
@@ -131,7 +130,7 @@ public class VerificationMethod implements Verification {
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
-                    if (response == null ) {
+                    if (response == null) {
                         callbackVerificationFailed(new InvalidInputException("Request Unsuccessful Try Again"));
                     } else if (response.code() == 200) {
                         try {
@@ -218,24 +217,24 @@ public class VerificationMethod implements Verification {
     protected void callbackVerificationFailed(final Exception e) {
         this.runOnCallbackHandler(new Runnable() {
             public void run() {
-                try {
-                    mContext.unregisterReceiver(receiver);
-                } catch (IllegalArgumentException e) {
-                    // e.printStackTrace();
-                }
+                unregisterReceiver();
                 VerificationMethod.this.mListener.onVerificationFailed(e);
             }
         });
     }
 
+    private void unregisterReceiver() {
+        try {
+            mContext.unregisterReceiver(receiver);
+        } catch (Exception e) {
+            // e.printStackTrace();
+        }
+    }
+
     protected void callbackVerified(final Response response) {
         this.runOnCallbackHandler(new Runnable() {
             public void run() {
-                try {
-                    mContext.unregisterReceiver(receiver);
-                } catch (IllegalArgumentException e) {
-                    //e.printStackTrace();
-                }
+                unregisterReceiver();
                 try {
                     VerificationMethod.this.mListener.onVerified(response.body().string());
                 } catch (IOException e) {
@@ -285,7 +284,6 @@ public class VerificationMethod implements Verification {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
             }
         } catch (Exception e) {
@@ -300,15 +298,17 @@ public class VerificationMethod implements Verification {
                 String action = intent.getAction();
                 if (action.equals("android.provider.Telephony.SMS_RECEIVED")) {
                     handleSmsCallBack(intent);
-                } else if (action.equals(android.telephony.TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
-                    String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-                    if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-                        String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER).replaceAll("[-+.^:,]", "").trim();
-                        incomingNumber = incomingNumber.substring(incomingNumber.length() - 6);
-                        verify(incomingNumber);
-                        disconnectCall();
-                    }
                 }
+
+//                else if (action.equals(android.telephony.TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
+//                    String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+//                    if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+//                        String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER).replaceAll("[-+.^:,]", "").trim();
+//                        incomingNumber = incomingNumber.substring(incomingNumber.length() - 6);
+//                        verify(incomingNumber);
+//                        disconnectCall();
+//                    }
+//                }
             }
         };
         return receiver;

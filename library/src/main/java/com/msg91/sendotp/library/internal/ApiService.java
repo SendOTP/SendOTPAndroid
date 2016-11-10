@@ -36,7 +36,7 @@ public class ApiService {
         this.secretKey = getSecretKey().trim();
         if (useHttp)
             this.baseUrl = baseUrlNoHttps;
-        Log.i("UserHeaders", "packageName=" + packageName + "secretKey=" + secretKey);
+        Log.i("UserHeaders ", "packageName=" + packageName + " secretKey=" + secretKey);
     }
 
     public Response generateRequest(String mobileNumber, String countryCode) {
