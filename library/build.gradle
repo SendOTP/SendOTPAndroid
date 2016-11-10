@@ -10,7 +10,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 6
-        versionName "2.7"
+        versionName "2.8"
     }
     buildTypes {
         release {
@@ -36,7 +36,7 @@ ext {
     siteUrl = 'sendotp.msg91.com'
     gitUrl = 'https://github.com/rakshitsoni02/SendOtp.git'
 
-    libraryVersion = '2.7'
+    libraryVersion = '2.8'
 
     developerId = 'rakshitsoni02'
     developerName = 'Rakshit Soni'
