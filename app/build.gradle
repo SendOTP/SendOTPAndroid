@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.msg91.sendotp.rakshit"
+        applicationId "com.msg91.sendotp.sample.test"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
@@ -27,7 +27,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
-    compile 'com.msg91.sendotp.library:library:2.8'
-     //compile project(':library')
+    compile 'com.msg91.sendotp.library:library:2.9'
+   //  compile project(':library')
 }
 

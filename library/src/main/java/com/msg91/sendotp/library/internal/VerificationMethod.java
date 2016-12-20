@@ -13,11 +13,8 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 import com.msg91.sendotp.library.InvalidInputException;
-import com.msg91.sendotp.library.ServiceErrorException;
 import com.msg91.sendotp.library.Verification;
 import com.msg91.sendotp.library.VerificationListener;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -63,43 +60,40 @@ public class VerificationMethod implements Verification {
             //  filter.addAction(android.telephony.TelephonyManager.ACTION_PHONE_STATE_CHANGED);
             mContext.registerReceiver(setUpReceiver(), filter);
             new AsyncTask<Void, Void, Void>() {
-                Response response;
+
+                Boolean success = false;
+                String responseBody = "Request Unsuccessful Try Again";
 
                 @Override
                 protected Void doInBackground(Void... params) {
-                    response = mApiService.generateRequest(mNumber, mCountry);
+                    Response response = mApiService.generateRequest(mNumber, mCountry);
+                    if (response != null) {
+                        if (response.code() == 200) {
+                            success = true;
+                        }
+                        try {
+                            responseBody = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            response.body().close();
+                        }
+                    }
                     return null;
                 }
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
-                    if (response == null) {
-                        callbackInitiationFailed(new Exception("Request Unsuccessful Try Again"));
+                    if (!success) {
+                        callbackInitiationFailed(new Exception(responseBody));
                     } else {
-                        if (response.code() == 200) {
-                            try {
-                                callbackInitiated(response.body().string());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            String messageCode = "";
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.body().string());
-                                messageCode = jsonObject.getJSONObject("response").getString("code");
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            if (!messageCode.equals("")) {
-                                callbackInitiationFailed(new Exception(messageCode));
-
-                            } else callbackInitiationFailed(new Exception(response.message()));
-                        }
-                        response.body().close();
+                        callbackInitiated(responseBody);
                     }
                 }
-            }.execute();
+            }
+                    .execute();
+
         } else {
             Log.e("No Internet", "Please check Network");
         }
@@ -119,41 +113,57 @@ public class VerificationMethod implements Verification {
             this.callbackVerificationFailed(new InvalidInputException("Number cannot be empty."));
         } else if (code != null && !code.isEmpty() && !mVerified) {
             new AsyncTask<Void, Void, Void>() {
-                Response response;
+                Boolean success = false;
+                String responseBody = "Request Unsuccessful Try Again";
 
                 @Override
                 protected Void doInBackground(Void... params) {
-                    response = mApiService.verifyRequest(mNumber, mCountry, code);
+                    Response response = mApiService.verifyRequest(mNumber, mCountry, code);
+                    if (response != null) {
+                        if (response.code() == 200) {
+                            success = true;
+                        }
+                        try {
+                            responseBody = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            response.body().close();
+                        }
+                    }
                     return null;
                 }
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
-                    if (response == null) {
-                        callbackVerificationFailed(new InvalidInputException("Request Unsuccessful Try Again"));
-                    } else if (response.code() == 200) {
-                        try {
-                            mVerified = true;
-                            VerificationMethod.this.onVerificationResult(response);
-                        } catch (Exception e) {
-                            callbackVerificationFailed(new VerificationException(response.message()));
-                            e.printStackTrace();
-                        }
+                    if (!success) {
+                        callbackVerificationFailed(new InvalidInputException(responseBody));
                     } else {
-                        String messageCode = "";
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.body().string());
-                            messageCode = jsonObject.getJSONObject("response").getString("code");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        if (!messageCode.equals("")) {
-                            callbackVerificationFailed(new Exception(messageCode));
-                        } else
-                            callbackVerificationFailed(new InvalidInputException(response.message()));
-                        response.body().close();
+                        callbackVerified(responseBody);
                     }
+//                    } else if (response.code() == 200) {
+//                        try {
+//                            mVerified = true;
+//                            VerificationMethod.this.onVerificationResult(response);
+//                        } catch (Exception e) {
+//                            callbackVerificationFailed(new VerificationException(response.message()));
+//                            e.printStackTrace();
+//                        }
+//                    } else {
+//                        String messageCode = "";
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(response.body().string());
+//                            messageCode = jsonObject.getJSONObject("response").getString("code");
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                        if (!messageCode.equals("")) {
+//                            callbackVerificationFailed(new Exception(messageCode));
+//                        } else
+//                            callbackVerificationFailed(new InvalidInputException(response.message()));
+//                        response.body().close();
+//                    }
 
                 }
             }.execute();
@@ -162,14 +172,14 @@ public class VerificationMethod implements Verification {
         }
     }
 
-    protected void onVerificationResult(Response response) {
-        try {
-            if (response.code() == 200)
-                this.callbackVerified(response);
-        } catch (Exception var2) {
-            this.callbackVerificationFailed(new ServiceErrorException("SendOtp backend service error: cannot parse success reply from server."));
-        }
-    }
+//    protected void onVerificationResult(Response response) {
+//        try {
+//            if (response.code() == 200)
+//                this.callbackVerified(response);
+//        } catch (Exception var2) {
+//            this.callbackVerificationFailed(new ServiceErrorException("SendOtp backend service error: cannot parse success reply from server."));
+//        }
+//    }
 
     protected void callbackInitiationFailed(final Exception e) {
         this.runOnCallbackHandler(new Runnable() {
@@ -231,15 +241,11 @@ public class VerificationMethod implements Verification {
         }
     }
 
-    protected void callbackVerified(final Response response) {
+    protected void callbackVerified(final String response) {
         this.runOnCallbackHandler(new Runnable() {
             public void run() {
                 unregisterReceiver();
-                try {
-                    VerificationMethod.this.mListener.onVerified(response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                VerificationMethod.this.mListener.onVerified(response);
             }
         });
     }
