@@ -32,12 +32,12 @@ grab via Maven:
 
 > **Note:**
 
-> - Login at [sendOTP](sendotp.msg91.com) 
+> - Login at [sendOTP](https://sendotp.msg91.com) 
 > - or to create account Sign Up at [MSG91](https://msg91.com/signup/sendotp) to use sendOTP services.
 
 #### <i class="icon-file"></i> Create New Application
 
-After login at [sendOTP](sendotp.msg91.com) click on <i class="icon-folder-open"></i> create new application fill app details
+After login at [sendOTP](https://sendotp.msg91.com) click on <i class="icon-folder-open"></i> create new application fill app details
 
 
 > **Note:**
@@ -93,7 +93,7 @@ As a Result of each request any one of method will triggered.
 FAQ
 ------
 
-> - If OTP not working in release mode but working in debug/test environment please replace your secret key of release version at [sendOTP](sendotp.msg91.com) [to get secret key search logs of android studio by 'UserHeaders' or use [this](http://help.msg91.com/article/181-how-to-generate-key-hash-for-android) code snippet to generate]
+> - If OTP not working in release mode but working in debug/test environment please replace your secret key of release version at [sendOTP](https://sendotp.msg91.com) [to get secret key search logs of android studio by 'UserHeaders' or use [this](http://help.msg91.com/article/181-how-to-generate-key-hash-for-android) code snippet to generate]
 > - If you are getting exception message 'Request Unsuccessful Try Again' it is because device not supporting 'https' , Solution is to set extra parameter **true** in createSmsVerification like :
 > 
 > mVerification = SendOtpVerification.createSmsVerification(this, phoneNumber, this, countryCode, **true**);
@@ -116,12 +116,3 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-
-
-
-
-
-
-
-
